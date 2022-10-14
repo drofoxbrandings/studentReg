@@ -19,7 +19,7 @@ import { listStudents } from "./studentApi";
 import { DataGrid } from "@mui/x-data-grid";
 import RegisterForm from "../../components/RegisterForm";
 
-const Students = () => {
+const Students = (props) => {
   const dispatch = useDispatch();
   const students = useSelector(getAllStudents);
   const studentStatus = useSelector((state) => state.student.status);
@@ -28,6 +28,7 @@ const Students = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [openForm, setOpenForm] = useState(false);
   const [isRegister, setIsRegister] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false)
 
   useEffect(() => {
     if (studentStatus === "idle") {
@@ -77,12 +78,17 @@ const Students = () => {
       flex: 1,
       headerClassName: "customColor",
       renderCell: (params) => (
-        <Button variant="outlined" size="small">
-          View
+        <Button variant="outlined" size="small" onClick={(e) => handleEdit(props.role)}>
+          Edit
         </Button>
       ),
     },
   ];
+
+  const handleEdit = (role) => {
+    setIsDisabled(role === "admin" ? true : false)
+    handleFormOpen('edit')
+  }
 
   const handleClose = () => {
     setIsError(false);
@@ -157,14 +163,8 @@ const Students = () => {
           </Typography>
         </DialogTitle>
         <DialogContent>
-          <RegisterForm />
+          <RegisterForm handleFormClose={handleFormClose} isDisabled={isDisabled}/>
         </DialogContent>
-        <DialogActions>
-          <Button variant="contained" onClick={handleFormClose}>
-            Cancel
-          </Button>
-          <Button variant="contained">Submit</Button>
-        </DialogActions>
       </Dialog>
     </>
   );

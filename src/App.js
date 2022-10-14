@@ -3,7 +3,7 @@ import { Container, Grid, Typography, FormControl, Select, InputLabel, MenuItem 
 import Students from './features/students/Students';
 
 function App() {
-  const [userRole, setUserRole] = useState('')
+  const [userRole, setUserRole] = useState('admin')
   const handleRoleChange = (e) => {
     setUserRole(e.target.value)
   }
@@ -36,11 +36,11 @@ function App() {
           </Grid>
           {/* {
             userRole && userRole === "admin" && */}
-            <Grid container>
-              <Grid item xs={12}>
-                <Students />
-              </Grid>
+          <Grid container>
+            <Grid item xs={12}>
+              <Students role={userRole} />
             </Grid>
+          </Grid>
           {/* } */}
         </Container>
       </header>
